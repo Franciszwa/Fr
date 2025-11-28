@@ -48,7 +48,10 @@ body{
   transform-origin:center;
   will-change: transform, filter;
 }
-#bgMain{ background-image: url("bg.jpg"); filter: saturate(1.05) contrast(0.95) blur(0.6px); transform: scale(1.06); }
+#bgMain{
+  filter: saturate(1.2) contrast(1.05) blur(0.2px);
+  opacity:0.9;
+}
 #bgFog{
   background: radial-gradient(circle at 10% 10%, rgba(0,255,160,0.05), transparent 20%),
               radial-gradient(circle at 90% 80%, rgba(0,200,255,0.03), transparent 25%);
@@ -153,10 +156,28 @@ body{
   display:flex; gap:10px; justify-content:center; margin-top:14px;
 }
 .icon{
-  width:56px; height:56px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center;
-  background:linear-gradient(180deg, #fff, #f3f3f3);
-  color:#111; text-decoration:none; font-size:20px; box-shadow: 0 14px 40px rgba(0,0,0,0.5);
-  transition: transform .18s, box-shadow .18s;
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+  transition: .25s;
+}
+.icon:hover{
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 20px 55px rgba(0,0,0,0.6);
+}
+.icon img{
+  width:60%;
+  height:60%;
+  object-fit:contain;
+  filter: drop-shadow(0 0 6px rgba(0,255,240,0.4));
 }
 .icon:hover{ transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
 
