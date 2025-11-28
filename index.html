@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<title>فروشگاه نئونی — نسخه نهایی</title>
+<style>
+/* ============================
+   Ultra Neon Glass — single file
+   توضیحات: فقط عکس‌ها رو جایگزین کن:
+   - bg.jpg (بک‌گراند)
+   - p1.jpg ... p10.jpg
+   - یا p7.mp4 / p8.mp4 برای ویدیو
+   ============================ */
+
+/* ----- ریست و پایه ----- */
+:root{
+  --bg-dark: #030312;
+  --glass-1: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --neon-a: #00ffbb;
+  --neon-b: #00d1ff;
+  --accent: #7cff00;
+  --card-radius: 18px;
+  --card-padding: 14px;
+  --shadow-strong: rgba(0,0,0,0.6);
+  --muted: rgba(255,255,255,0.65);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: "Vazir", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #000;
+  color: #e8fff6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ----- بک‌گراند پارالاکس + لایه‌های نوری ----- */
+.bg-wrap{
+  position:fixed; inset:0; z-index:-99; overflow:hidden;
+  pointer-events:none;
+}
+.bg-layer{
+  position:absolute; inset:0; background-position:center; background-size:cover;
+  transform-origin:center;
+  will-change: transform, filter;
+}
+#bgMain{ background-image: url("bg.jpg"); filter: saturate(1.05) contrast(0.95) blur(0.6px); transform: scale(1.06); }
+#bgFog{
+  background: radial-gradient(circle at 10% 10%, rgba(0,255,160,0.06), transparent 8%),
+              radial-gradient(circle at 90% 80%, rgba(0,200,255,0.04), transparent 10%);
+  mix-blend-mode: screen;
+  filter: blur(28px);
+  opacity:0.95;
+  transform: scale(1.12);
+}
+#bgGrid{
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+                    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 240px 240px, 240px 240px;
+  opacity:0.03;
+  mix-blend-mode: overlay;
+  transform: scale(1.05);
+}
+
+/* floating particles (pure css) */
+.particles{
+  position:absolute; inset:0; z-index:-50; pointer-events:none;
+}
+.particles .dot{
+  position:absolute; width:6px; height:6px; border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+  opacity:0.06; filter: blur(0.6px);
+  animation: float 10s linear infinite;
+}
+@keyframes float{
+  0%{ transform: translateY(0) scale(1); opacity:0.05 }
+  50%{ transform: translateY(-60px) scale(1.2); opacity:0.11 }
+  100%{ transform: translateY(0) scale(1); opacity:0.05 }
+}
+
+/* ----- هدر و برند ----- */
+.header{
+  position:relative;
+  width:100%;
+  max-width:1200px;
+  margin:18px auto 6px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+}
+.brand .logo{
+  width:52px; height:52px; border-radius:12px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 28px rgba(0,255,140,0.05) inset;
+}
+.brand h1{
+  font-size:20px; letter-spacing:1px; margin:0;
+  background: linear-gradient(90deg, var(--neon-a), var(--neon-b));
+  -webkit-background-clip:text; color:transparent;
+  text-shadow: 0 0 12px rgba(0,255,120,0.06);
+}
+.header .hint{ color:var(--muted); font-size:13px }
+
+/* ----- کارت مرکزی پروفایل (big visual) ----- */
+.hero{
+  width:100%;
+  max-width:1100px;
+  margin:8px auto 22px;
+  border-radius:28px;
+  padding:28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+  border:1px solid rgba(255,255,255,0.03);
+  position:relative;
+  overflow:visible;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:-8px;
+  border-radius:34px;
+  background: linear-gradient(90deg, rgba(0,255,140,0.06), rgba(0,200,255,0.04));
+  filter: blur(34px);
+  z-index:-1;
+  opacity:0.9;
+}
+.hero .avatar{
+  width:130px; height:130px; border-radius:50%; overflow:hidden;
+  border:7px solid rgba(0,0,0,0.45);
+  margin: -88px auto 6px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.6), 0 0 36px rgba(0,255,140,0.12);
+}
+.hero .hero-title{
+  text-align:center; font-size:28px; font-weight:800;
+  margin-top:4px;
+  background: linear-gradient(90deg, #fff, var(--neon-a), var(--neon-b));
+  -webkit-background-clip:text; color:transparent;
+  text-shadow: 0 0 14px rgba(0,255,120,0.06);
+}
+.hero .hero-sub{ text-align:center; color:rgba(255,255,255,0.8); margin-top:6px }
+
+/* icons */
+.hero .controls{
+  display:flex; gap:10px; justify-content:center; margin-top:14px;
+}
+.icon{
+  width:56px; height:56px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg, #fff, #f3f3f3);
+  color:#111; text-decoration:none; font-size:20px; box-shadow: 0 14px 40px rgba(0,0,0,0.5);
+  transition: transform .18s, box-shadow .18s;
+}
+.icon:hover{ transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+
+/* ----- گراید محصولات (گاد) ----- */
+.container{
+  max-width:1200px; margin:18px auto 80px; padding:0 16px;
+}
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(165px,1fr));
+  gap:20px;
+  align-items:start;
+}
+
+/* کارت محصول: glass + neon + 3D + badge + shimmer */
+.card{
+  border-radius:20px;
+  padding:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  transition: transform .32s cubic-bezier(.2,.9,.3,1), box-shadow .32s;
+  position:relative;
+  overflow:visible;
+  cursor:pointer;
+  transform-style: preserve-3d;
+}
+
+/* glow ring */
+.card::before{
+  content:"";
+  position:absolute; inset:-20px; z-index:-1; border-radius:24px;
+  background: radial-gradient(400px 160px at 10% 0%, rgba(0,255,120,0.06), transparent 7%),
+              radial-gradient(400px 160px at 90% 100%, rgba(0,200,255,0.04), transparent 7%);
+  filter: blur(26px);
+  opacity:0.9;
+  transition: filter .3s, transform .3s;
+}
+.card:hover::before{ filter: blur(38px) }
+
+/* image / video */
+.card .media{
+  width:100%;
+  height:110px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#121212;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4) inset;
+  transform-origin:center;
+}
+.card .media img, .card .media video{
+  width:100%; height:100%; object-fit:cover; display:block; transition: transform .6s cubic-bezier(.2,.9,.3,1);
+}
+
+/* neon name */
+.card .name{
+  margin-top:10px;
+  text-align:center;
+  font-weight:800;
+  font-size:15px;
+  color:var(--neon-a);
+  text-shadow:
+    0 0 10px rgba(124,255,0,0.14),
+    0 0 22px rgba(0,255,150,0.08);
+  transition: color .18s, transform .18s;
+}
+
+/* badge */
+.card .badge{
+  position:absolute; top:12px; left:12px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.36), rgba(255,255,255,0.02));
+  padding:6px 8px; border-radius:10px;
+  font-size:12px; color:var(--muted);
+  backdrop-filter: blur(8px);
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+/* small under glow */
+.card .glow{
+  height:8px; width:36%; margin:10px auto 0; border-radius:8px;
+  background: linear-gradient(90deg, rgba(0,255,140,0.34), rgba(0,200,255,0.22));
+  filter: blur(10px);
+  opacity:0.95;
+}
+
+/* hover 3d tilt */
+.card:hover{
+  transform: translateY(-16px) rotateX(8deg) scale(1.02);
+  box-shadow: 0 36px 90px rgba(0,0,0,0.72), 0 0 40px rgba(0,255,120,0.06);
+}
+.card:hover .media img, .card:hover .media video{
+  transform: scale(1.08) rotate(-1.2deg);
+}
+
+/* shimmer banner at bottom of page */
+.footer-banner{
+  width:100%;
+  max-width:1200px;
+  margin:24px auto 80px;
+  padding:14px;
+  border-radius:14px;
+  background: linear-gradient(90deg, rgba(0,255,140,0.06), rgba(0,200,255,0.04));
+  text-align:center;
+  color:rgba(0,0,0,0.9);
+  font-weight:700;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+/* ----- tiny interactive touches (tooltips, focus) ----- */
+.card:active{ transform: translateY(-6px) rotateX(4deg) scale(0.995) }
+
+/* ----- responsive ----- */
+@media (max-width:980px){
+  .hero{ padding:18px; border-radius:20px }
+  .brand h1{ font-size:18px }
+  .grid{ gap:14px }
+}
+@media (max-width:520px){
+  .grid{ grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap:12px }
+  .hero .avatar{ width:100px; height:100px; margin-top:-64px }
+  .hero .hero-title{ font-size:20px }
+}
+
+/* ----- custom scrollbar (neon) ----- */
+::-webkit-scrollbar { width:8px }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02) }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg,#00ffbb,#00d1ff); border-radius:20px }
+
+/* ======= Extra large CSS decorations (visual noise & depth) ======= */
+/* floating glass ribbons */
+.ribbon{
+  position:absolute;
+  height:220px; width:60%;
+  left:0; right:0; margin:auto;
+  top:-40px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  transform: rotate(-2deg);
+  filter: blur(28px);
+  opacity:0.12;
+  border-radius: 40px;
+  z-index:-2;
+}
+
+/* animated neon border */
+@keyframes neonPulse {
+  0% { box-shadow: 0 0 4px rgba(0,255,140,0.06), 0 0 28px rgba(0,200,255,0.02) }
+  50% { box-shadow: 0 0 18px rgba(0,255,140,0.12), 0 0 46px rgba(0,200,255,0.06) }
+  100% { box-shadow: 0 0 4px rgba(0,255,140,0.06), 0 0 28px rgba(0,200,255,0.02) }
+}
+.neon-anim{ animation: neonPulse 4.2s infinite ease-in-out }
+
+/* glass border lines */
+.border-lines{
+  position:absolute; inset:0; pointer-events:none; z-index:-1;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.02), transparent 20%),
+    linear-gradient(90deg, rgba(255,255,255,0.02), transparent 20%);
+  mix-blend-mode: overlay;
+  opacity:0.045;
+}
+
+/* subtle radial vignette */
+.vignette{
+  position:fixed; inset:0; z-index:-5; pointer-events:none;
+  background: radial-gradient(60% 60% at 50% 50%, rgba(0,0,0,0.0), rgba(0,0,0,0.55));
+}
+
+/* ===== small adaptive helpers ===== */
+.hidden-sm{ display:inline-block }
+@media (max-width:600px){ .hidden-sm{ display:none } }
+
+/* ====== accessibility focus ====== */
+a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
+
+/* ========================= END CSS (big visual) ========================= */
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND AND EFFECT LAYERS -->
+<div class="bg-wrap" aria-hidden="true">
+  <div id="bgMain" class="bg-layer"></div>
+  <div id="bgFog" class="bg-layer"></div>
+  <div id="bgGrid" class="bg-layer"></div>
+
+  <div class="particles" id="particles">
+    <!-- JS will create dots -->
+  </div>
+</div>
+
+<!-- VIGNETTE -->
+<div class="vignette"></div>
+
+<!-- SITE CONTENT -->
+<header class="header">
+  <div class="brand">
+    <div class="logo"><img src="p1.jpg" alt="logo" style="width:100%;height:100%;object-fit:cover"></div>
+    <div>
+      <h1>فروشگاه نئونی</h1>
+      <div class="hint">۱۰ محصول ویژۀ گرافیکی — جهت خرید روی کارت ضربه بزن</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;align-items:center">
+    <a class="icon" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">تلگرام</a>
+    <a class="icon" href="#" target="_blank" rel="noreferrer">لینک</a>
+  </div>
+</header>
+
+<main class="container">
+  <!-- ribbon for depth -->
+  <div class="ribbon"></div>
+
+  <!-- hero -->
+  <section class="hero neon-anim" aria-label="نمایه فروشگاه">
+    <div class="avatar"><img src="p2.jpg" alt="avatar" style="width:100%;height:100%;object-fit:cover"></div>
+    <div class="hero-title">AMIR</div>
+    <div class="hero-sub">STRONGER THAN YESTERDAY — فروشگاه نئونی</div>
+
+    <div class="controls">
+      <a class="icon" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">✈</a>
+      <a class="icon" href="#" target="_blank" rel="noreferrer">🔗</a>
+      <a class="icon" href="#" target="_blank" rel="noreferrer">🐙</a>
+      <a class="icon" href="#" target="_blank" rel="noreferrer">📷</a>
+    </div>
+  </section>
+
+  <!-- products grid -->
+  <section class="grid" id="grid">
+    <!-- 10 cards (images/videos) -->
+    <!-- Card template: anchor to telegram (buy) -->
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">ویژه</div>
+      <div class="media"><img src="p1.jpg" alt="محصول 1"></div>
+      <div class="name">محصول 1</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">پرفروش</div>
+      <div class="media"><img src="p2.jpg" alt="محصول 2"></div>
+      <div class="name">محصول 2</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">جدید</div>
+      <div class="media"><img src="p3.jpg" alt="محصول 3"></div>
+      <div class="name">محصول 3</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">فوری</div>
+      <div class="media"><img src="p4.jpg" alt="محصول 4"></div>
+      <div class="name">محصول 4</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">محدود</div>
+      <div class="media"><img src="p5.jpg" alt="محصول 5"></div>
+      <div class="name">محصول 5</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">تخفیف</div>
+      <div class="media"><img src="p6.jpg" alt="محصول 6"></div>
+      <div class="name">محصول 6</div>
+      <div class="glow"></div>
+    </a>
+
+    <!-- ویدیوها (اگر داری) -->
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">دمو</div>
+      <div class="media"><video src="p7.mp4" muted loop playsinline></video></div>
+      <div class="name">محصول 7</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">دمو</div>
+      <div class="media"><video src="p8.mp4" muted loop playsinline></video></div>
+      <div class="name">محصول 8</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">ویژه</div>
+      <div class="media"><img src="p9.jpg" alt="محصول 9"></div>
+      <div class="name">محصول 9</div>
+      <div class="glow"></div>
+    </a>
+
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+      <div class="badge">ویژه</div>
+      <div class="media"><img src="p10.jpg" alt="محصول 10"></div>
+      <div class="name">محصول 10</div>
+      <div class="glow"></div>
+    </a>
+  </section>
+
+  <div class="footer-banner">برای سفارش روی هر کارت بزن — پاسخ سریع در تلگرام</div>
+
+</main>
+
+<!-- decorative borderlines -->
+<div class="border-lines"></div>
+
+<script>
+/* ========== JS: particles, tilt, lazy-play, parallax ========== */
+
+/* سازنده ذرات سبک */
+(function makeDots(){
+  const wrap = document.getElementById('particles');
+  const count = 28;
+  for(let i=0;i<count;i++){
+    const d = document.createElement('div');
+    d.className = 'dot';
+    // random position
+    d.style.left = (Math.random()*100)+'%';
+    d.style.top = (Math.random()*100)+'%';
+    d.style.width = (4+Math.random()*8)+'px';
+    d.style.height = d.style.width;
+    d.style.animationDuration = (8+Math.random()*12)+'s';
+    d.style.opacity = (0.02+Math.random()*0.08).toFixed(2);
+    wrap.appendChild(d);
+  }
+})();
+
+/* parallax background on mouse move (desktop) */
+(function parallax(){
+  const bgMain = document.getElementById('bgMain');
+  const bgFog = document.getElementById('bgFog');
+  const bgGrid = document.getElementById('bgGrid');
+  let w = window.innerWidth, h = window.innerHeight;
+  window.addEventListener('mousemove', (e)=>{
+    const nx = (e.clientX / w - 0.5)*1.2;
+    const ny = (e.clientY / h - 0.5)*1.2;
+    bgMain.style.transform = `translate(${nx*10}px,${ny*6}px) scale(1.05)`;
+    bgFog.style.transform = `translate(${nx*18}px,${ny*10}px) scale(1.12)`;
+    bgGrid.style.transform = `translate(${nx*4}px,${ny*3}px) scale(1.03)`;
+  });
+})();
+
+/* tilt card effect for touch/mouse */
+(function tilt(){
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card=>{
+    let rect = null;
+    function updateRect(){ rect = card.getBoundingClientRect(); }
+    updateRect(); window.addEventListener('resize', updateRect);
+    card.addEventListener('mousemove', e=>{
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const rx = (-dy/rect.height)*12;
+      const ry = (dx/rect.width)*12;
+      card.style.transform = `translateY(-8px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
+    });
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform = '';
+    });
+
+    // touch: simple press lift
+    let tmr;
+    card.addEventListener('touchstart', ()=> {
+      card.style.transform = 'translateY(-8px) rotateX(6deg) scale(1.02)';
+      tmr = setTimeout(()=>{ card.style.transform = ''; }, 700);
+    });
+    card.addEventListener('touchend', ()=> { clearTimeout(tmr); card.style.transform = ''; });
+  });
+})();
+
+/* play videos when visible (lazy) */
+(function lazyVideo(){
+  const vids = document.querySelectorAll('.media video');
+  function check(){
+    vids.forEach(v=>{
+      const r = v.getBoundingClientRect();
+      if(r.top < (window.innerHeight) && r.bottom > 0){
+        if(v.paused) v.play().catch(()=>{});
+      } else {
+        if(!v.paused) v.pause();
+      }
+    });
+  }
+  check(); window.addEventListener('scroll', check); window.addEventListener('resize', check);
+})();
+
+/* enable click-to-edit name (prompt) and save to localStorage */
+(function editableNames(){
+  const names = document.querySelectorAll('.name');
+  const STORAGE_KEY = 'neon_store_names_v1';
+  // load
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    saved.forEach((n,i)=>{ if(names[i]) names[i].textContent = n; });
+  }catch(e){}
+  names.forEach((n,idx)=>{
+    n.addEventListener('dblclick', (e)=>{
+      e.preventDefault();
+      const val = prompt('اسم محصول را وارد کنید:', n.textContent);
+      if(val!==null){ n.textContent = val; const arr=Array.from(names).map(x=>x.textContent); localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+    });
+  });
+})();
+
+/* small UX: disable zoom on mobile (meta already set), but prevent pinch via touch-action */
+document.documentElement.style.touchAction = 'manipulation';
+</script>
+
+</body>
+</html>
