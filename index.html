@@ -492,16 +492,35 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
       src="p8.mp4"
       autoplay
       muted
-      loop
       playsinline
       preload="auto"
-      poster="p7-thumbnail.jpg"
+      poster="p8-thumbnail.jpg"
     ></video>
   </div>
 
-  <div class="name">8</div>
+  <div class="name">محصول 8</div>
   <div class="glow"></div>
 </a>
+
+<script>
+  document.querySelectorAll('.card video').forEach(video => {
+    // تلاش برای پخش خودکار
+    function tryPlay() {
+      video.play().catch(() => {
+        setTimeout(tryPlay, 200);
+      });
+    }
+    tryPlay();
+
+    // loop واقعی بدون تصویر آخر
+    video.addEventListener('timeupdate', () => {
+      if (video.currentTime >= video.duration - 0.03) { // قبل از پایان ویدئو
+        video.currentTime = 0;
+        video.play();
+      }
+    });
+  });
+</script>
      
     <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
       <div class="badge">ویژه</div>
