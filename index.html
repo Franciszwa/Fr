@@ -492,7 +492,6 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
       src="p8.mp4"
       autoplay
       muted
-      loop
       playsinline
       preload="auto"
       poster="p8-thumbnail.jpg"
@@ -504,10 +503,16 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
 </a>
 
 <script>
-  // تلاش برای پخش خودکار ویدئو
   document.querySelectorAll('.card video').forEach(video => {
+    // تلاش برای autoplay اولیه
     video.play().catch(() => {
       console.log('Autoplay blocked, video will play on interaction');
+    });
+
+    // حلقه کردن بدون توقف تصویر آخر
+    video.addEventListener('ended', () => {
+      video.currentTime = 0; // برگرداندن به ابتدای ویدئو
+      video.play();           // دوباره پخش کردن
     });
   });
 </script>
