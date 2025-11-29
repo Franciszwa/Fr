@@ -466,20 +466,51 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
 
     <!-- ویدیوها (اگر داری) -->
     <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
-  <span class="badge">دمو</span>
+  <div class="badge">دمو</div>
+
   <div class="media">
-    <video src="p7.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video
+      src="p7.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="p7-thumbnail.jpg"
+    ></video>
   </div>
-  <span class="name">محصول 7</span>
+
+  <div class="name">محصول 7</div>
+  <div class="glow"></div>
+</a>
+     
+    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
+  <div class="badge">دمو</div>
+
+  <div class="media">
+    <video
+      src="p8.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="p8-thumbnail.jpg"
+    ></video>
+  </div>
+
+  <div class="name">محصول 8</div>
   <div class="glow"></div>
 </a>
 
-    <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
-      <div class="badge">دمو</div>
-      <div class="media"><video src="p8.mp4" muted loop playsinline></video></div>
-      <div class="name">محصول 8</div>
-      <div class="glow"></div>
-    </a>
+<script>
+  // تلاش برای پخش خودکار ویدئو
+  document.querySelectorAll('.card video').forEach(video => {
+    video.play().catch(() => {
+      console.log('Autoplay blocked, video will play on interaction');
+    });
+  });
+</script>
 
     <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
       <div class="badge">ویژه</div>
