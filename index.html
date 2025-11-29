@@ -490,8 +490,8 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
   <div class="media">
     <video
       src="p8.mp4"
-      autoplay
       muted
+      autoplay
       playsinline
       preload="auto"
       poster="p8-thumbnail.jpg"
@@ -504,15 +504,29 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
 
 <script>
   document.querySelectorAll('.card video').forEach(video => {
-    // تلاش برای autoplay اولیه
-    video.play().catch(() => {
-      console.log('Autoplay blocked, video will play on interaction');
+    function tryPlay() {
+      video.play().catch(() => {
+        console.log('Autoplay blocked, will retry in 200ms');
+        setTimeout(tryPlay, 200);
+      });
+    }
+
+    tryPlay();
+
+    // حلقه بدون توقف تصویر آخر
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play();
     });
 
-    // حلقه کردن بدون توقف تصویر آخر
-    video.addEventListener('ended', () => {
-      video.currentTime = 0; // برگرداندن به ابتدای ویدئو
-      video.play();           // دوباره پخش کردن
+    // اگر وسط ویدئو قفل شد، تلاش برای ادامه پخش
+    video.addEventListener('stalled', () => {
+      console.log('Video stalled, trying to resume...');
+      tryPlay();
+    });
+
+    video.addEventListener('error', (e) => {
+      console.log('Video error:', e);
     });
   });
 </script>
