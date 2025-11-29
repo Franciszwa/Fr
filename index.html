@@ -486,51 +486,26 @@ a:focus, button:focus { outline: 2px dashed var(--neon-a); outline-offset:4px }
      
     <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
   <div class="badge">دمو</div>
-
   <div class="media">
-    <video
-      src="p8.mp4"
-      muted
-      autoplay
-      playsinline
-      preload="auto"
-      poster="p8-thumbnail.jpg"
-    ></video>
+    <video src="p8.mp4" autoplay muted playsinline preload="auto" poster="p8-thumbnail.jpg"></video>
   </div>
-
   <div class="name">محصول 8</div>
   <div class="glow"></div>
 </a>
 
 <script>
-  document.querySelectorAll('.card video').forEach(video => {
-    function tryPlay() {
-      video.play().catch(() => {
-        console.log('Autoplay blocked, will retry in 200ms');
-        setTimeout(tryPlay, 200);
-      });
-    }
+document.querySelectorAll('.card video').forEach(video => {
+  video.play().catch(() => console.log('Autoplay blocked'));
 
-    tryPlay();
-
-    // حلقه بدون توقف تصویر آخر
-    video.addEventListener('ended', () => {
+  // حلقه بدون freeze
+  video.addEventListener('timeupdate', () => {
+    if (video.currentTime >= video.duration - 0.03) { // کمتر از 30ms مانده به پایان
       video.currentTime = 0;
       video.play();
-    });
-
-    // اگر وسط ویدئو قفل شد، تلاش برای ادامه پخش
-    video.addEventListener('stalled', () => {
-      console.log('Video stalled, trying to resume...');
-      tryPlay();
-    });
-
-    video.addEventListener('error', (e) => {
-      console.log('Video error:', e);
-    });
+    }
   });
+});
 </script>
-
     <a class="card" href="https://t.me/YOUR_USERNAME" target="_blank" rel="noreferrer">
       <div class="badge">ویژه</div>
       <div class="media"><img src="p9.jpg" alt="محصول 9"></div>
